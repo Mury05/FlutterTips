@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
-class StateApp extends StatelessWidget {
-  static int card1 = 0;
-  static int card2 = 0;
-  const StateApp({super.key});
+class StateApp extends StatefulWidget {
+  @override
+  State<StateApp> createState() => _StateAppState();
+}
 
+class _StateAppState extends State<StateApp> {
+  int card1 = 0;
+  int card2 = 0;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,16 +23,26 @@ class StateApp extends StatelessWidget {
             children: [
               Card(
                 color: Colors.green,
-                text: "0",
-                callback: () => {card1++,print("Card 1, cliqué $card1 fois")},
+                text: "$card1",
+                callback: () => {
+                  setState(() {
+                    card1++;
+                  }),
+                  print("Card 1, cliqué $card1 fois")
+                },
               ),
               SizedBox(
                 height: 300,
               ),
               Card(
                 color: Colors.red,
-                text: "0",
-                callback: () => {card2++,print("Card 2, cliqué $card2 fois")},
+                text: "$card2",
+                callback: () => {
+                  setState(() {
+                    card2++;
+                  }),
+                  print("Card 2, cliqué $card2 fois")
+                },
               ),
             ],
           ),
@@ -62,9 +75,12 @@ class Card extends StatelessWidget {
           border: Border.all(color: color, width: 3),
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Center(child: Text(text, style: TextStyle(fontSize: 30),)),
+        child: Center(
+            child: Text(
+          text,
+          style: TextStyle(fontSize: 30),
+        )),
       ),
     );
   }
 }
-
