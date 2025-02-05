@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class StateApp extends StatefulWidget {
@@ -7,7 +9,12 @@ class StateApp extends StatefulWidget {
 
 class _StateAppState extends State<StateApp> {
   int card1 = 0;
-  int card2 = 0;
+  String card2 = '';
+  List<String> letters =
+      List.generate(26, (index) => String.fromCharCode(index + 65));
+  List<int> consonantIndexes = [1, 2, 3, 5, 6, 7, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 21, 22, 23, 25];
+  List<int> vowelsIndexes = [0, 4, 8, 14, 20, 24];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,24 +33,51 @@ class _StateAppState extends State<StateApp> {
                 text: "$card1",
                 callback: () => {
                   setState(() {
-                    card1++;
+                    card1 = Random().nextInt(26);
+                    card2 = letters[card1-1];
                   }),
-                  print("Card 1, cliqué $card1 fois")
                 },
               ),
               SizedBox(
-                height: 300,
+                height: 250,
               ),
               Card(
                 color: Colors.red,
-                text: "$card2",
+                text: card2,
                 callback: () => {
                   setState(() {
-                    card2++;
+                    card1 = Random().nextInt(letters.length);
+                    card2 = letters[card1-1];
                   }),
-                  print("Card 2, cliqué $card2 fois")
                 },
               ),
+              SizedBox(
+                height: 50,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  FloatingActionButton(
+                    onPressed: () => {
+                      setState(() {
+                        card1 = consonantIndexes[Random().nextInt(consonantIndexes.length)] +1;
+                        card2 = letters[card1 -1];
+                      }),
+                    },
+                    child: Text("Consone"),
+                  ),
+                  FloatingActionButton(
+                    onPressed: () => {
+                      setState(() {
+                      card1 = vowelsIndexes[Random().nextInt(vowelsIndexes.length)]+1;
+                      card2 = letters[card1-1];
+                        
+                      })
+                    },
+                    child: Text("Voyelle"),
+                  ),
+                ],
+              )
             ],
           ),
         ),
